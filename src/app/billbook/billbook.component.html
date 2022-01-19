@@ -1,0 +1,67 @@
+<div class="example-container mat-elevation-z8">
+  <div fxLayout="row">
+    <mat-form-field appearance="fill">
+      <select matNativeControl (change)="changeSelection($event,MONTH_SELECTION)">
+        <option [value]="NO_SELECT" selected>--请选择月份--</option>
+        <option *ngFor="let month of months" [value]="month.value">{{month.name}}</option>
+      </select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <select matNativeControl (change)="changeSelection($event,CATEGORY_SELECTION)">
+        <option [value]="NO_SELECT" selected>--请选择分类--</option>
+        <option *ngFor="let category of categoryArray" [value]="category.id">{{category.name}}</option>
+      </select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <select matNativeControl (change)="changeSelection($event,TYPE_SELECTION)">
+        <option [value]="NO_SELECT" selected>--请选择类型--</option>
+        <option *ngFor="let type of inOut" [value]="type.value">{{type.name}}</option>
+      </select>
+    </mat-form-field>
+  </div>
+  <div *ngIf="showInOutData" fxLayout="row">
+    <div class="example-margin-right">
+      (当月人民币)收入：{{inMoneyByMonth}}
+      <div *ngFor="let category of inCategoryArray">
+        <span> --{{category.name}}:{{category.monthlyIncome}}</span>
+      </div>
+    </div>
+    <div class="example-margin-right">
+      (当月人民币)支出：{{outMoneyByMonth}}
+      <div *ngFor="let category of outCategoryArray">
+        <span> --{{category.name}}:{{category.monthlyOutcome}}</span>
+      </div>
+    </div>
+  </div>
+  <mat-table [dataSource]="dataSource" matSort matSortActive="time" matSortDirection="desc">
+    <!-- type Column -->
+    <ng-container matColumnDef="type">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.type === 0 ? '支出' : '收入'}} </mat-cell>
+    </ng-container>
+
+    <!-- Time Column -->
+    <ng-container matColumnDef="time">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Time </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.time}}% </mat-cell>
+    </ng-container>
+
+    <!-- Category Column -->
+    <ng-container matColumnDef="category">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Category </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.category.name}} </mat-cell>
+    </ng-container>
+
+    <!-- Amount Column -->
+    <ng-container matColumnDef="amount">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Amount </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.amount}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons aria-label="Select page">></mat-paginator>
+</div>

@@ -1,0 +1,32 @@
+<h2>Add a bill</h2>
+<form class="my-form" [formGroup]="addBillFormGroup" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="type" class="xrequired">Type: </label>
+    <select id="type" matNativeControl (change)="changeType($event)" formControlName="type">
+      <option value="" selected>--请选择类型--</option>
+      <option *ngFor="let type of inOut" [value]="type.value">{{type.name}}</option>
+    </select>
+  </div>
+  <div *ngIf="bill.type !== null">
+    <label for="category" class="xrequired">Category: </label>
+    <select id="category" matNativeControl formControlName="category">
+      <option value="" selected>--请选择分类--</option>
+      <ng-container *ngIf="bill.type === type.IN else outCategory">
+        <option *ngFor="let category of inCategoryArray" [value]="category.id">{{category.name}}</option>
+      </ng-container>
+      <ng-template #outCategory>
+        <option *ngFor="let category of outCategoryArray" [value]="category.id">{{category.name}}</option>
+      </ng-template>
+    </select>
+  </div>
+  <div>
+    <label for="amount" class="xrequired">Amount: </label>
+    <input id="amount" type="text" formControlName="amount" [pattern]="amountPattern">
+    <div class="amount-error" *ngIf="amount.errors?.pattern">
+      请输入数字，精确到小数点后两位
+    </div>
+  </div>
+  <div>
+    <button type="submit" [disabled]="!addBillFormGroup.valid">Add</button>
+  </div>
+</form>
