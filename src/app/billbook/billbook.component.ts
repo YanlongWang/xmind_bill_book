@@ -81,7 +81,6 @@ export class BillbookComponent implements OnInit , AfterViewInit{
             const row = csvToRowArray[index].split(',');
             this.categoryArray.push(new Category(row[0], row[1] === Type.OUT.toString() ? Type.OUT : Type.IN, row[2]));
           }
-          console.log(this.categoryArray);
           this.categoryArray.forEach(category => {
             if (category.type === Type.IN) {
               this.inCategoryArray.push(category);
@@ -107,7 +106,6 @@ export class BillbookComponent implements OnInit , AfterViewInit{
                     this.billArray.push(new Bill(row[0] === Type.OUT.toString() ? Type.OUT : Type.IN, billTime, mappedCategory, row[3]));
                   }
                 }
-                console.log(this.billArray);
                 // Assign the data to the data source for the table to render
                 this.dataSource.data = this.billArray;
                 this.dataSource.sortingDataAccessor = this.addSorting();
@@ -139,7 +137,6 @@ export class BillbookComponent implements OnInit , AfterViewInit{
 
   private addFilter(): any {
     return (bill: Bill, filter: string) => {
-      console.log(filter);
       const isMonthNoSelect = this.NO_SELECT === this.selectMonth ;
       const isTypeNoSelect = this.NO_SELECT === this.selectType ;
       const isCategoryNoSelect = this.NO_SELECT === this.selectCategory ;
@@ -180,7 +177,6 @@ export class BillbookComponent implements OnInit , AfterViewInit{
           this.outCategoryArray.sort((cateA, cateB) => (cateB.monthlyOutcome - cateA.monthlyOutcome));
         }
       }
-      console.log(result);
       return result;
     };
   }
@@ -195,7 +191,6 @@ export class BillbookComponent implements OnInit , AfterViewInit{
     } else {
       this.selectCategory = selectValue;
     }
-    console.log(selectValue);
     this.dataSource.filter = selectValue;
   }
 

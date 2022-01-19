@@ -40,7 +40,6 @@ export class AddbillComponent implements OnInit {
             const row = csvToRowArray[index].split(',');
             this.categoryArray.push(new Category(row[0], row[1] === Type.OUT.toString() ? Type.OUT : Type.IN, row[2]));
           }
-          console.log(this.categoryArray);
           this.categoryArray.forEach(category => {
             if (category.type === Type.IN) {
               this.inCategoryArray.push(category);
